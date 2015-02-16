@@ -14,9 +14,11 @@ J = 0;
 %               You should set J to the cost.
 
 
-
-
-
+for i = 1:rows(X)
+    h = transpose(theta) * transpose(X(i,:));
+    J = J + (h - y(i))^2;
+endfor
+J = J / (2*m);
 % =========================================================================
 
 end

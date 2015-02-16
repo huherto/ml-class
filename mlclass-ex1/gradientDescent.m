@@ -17,10 +17,18 @@ for iter = 1:num_iters
     %       of the cost function (computeCost) and gradient here.
     %
 
+    tmp = theta;
+    for j = 1:rows(tmp)
+        s = 0;
+        for i = 1:rows(X)
+            h = transpose(theta) * transpose(X(i,:));
+            s = s + (h - y(i))*X(i,j);
+        endfor
+        tmp(j) = theta(j) - (alpha / m)*s;
+    endfor
+    theta = tmp;
 
-
-
-
+    cost = computeCost(X, y, theta)
 
 
     % ============================================================
