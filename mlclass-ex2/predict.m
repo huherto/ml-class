@@ -2,7 +2,7 @@ function p = predict(theta, X)
 %PREDICT Predict whether the label is 0 or 1 using learned logistic 
 %regression parameters theta
 %   p = PREDICT(theta, X) computes the predictions for X using a 
-%   threshold at 0.5 (i.e., if sigmoid(theta'*x) >= 0.5, predict 1)
+%   threshold at 0.5 (i.e., if sigmoid(transpose(theta)*x) >= 0.5, predict 1)
 
 m = size(X, 1); % Number of training examples
 
@@ -14,8 +14,12 @@ p = zeros(m, 1);
 %               your learned logistic regression parameters. 
 %               You should set p to a vector of 0's and 1's
 %
-
-
+for i = 1:rows(X)
+    h= sigmoid(transpose(theta) * transpose(X(i,:)));
+    if h >= 0.5
+        p(i) = 1;
+    endif
+endfor
 
 
 
