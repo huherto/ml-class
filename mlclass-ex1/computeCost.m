@@ -13,12 +13,16 @@ J = 0;
 % Instructions: Compute the cost of a particular choice of theta
 %               You should set J to the cost.
 
+h = transpose(transpose(theta)*transpose(X));
+J = (h - y) .^ 2;
+J = sum(J)/(2*m);
 
-for i = 1:rows(X)
-    h = transpose(theta) * transpose(X(i,:));
-    J = J + (h - y(i))^2;
-endfor
-J = J / (2*m);
+%for i = 1:rows(X)
+%    h = transpose(theta) * transpose(X(i,:));
+%    J = J + (h - y(i))^2;
+% endfor
+% J = J / (2*m);
+
 % =========================================================================
 
 end

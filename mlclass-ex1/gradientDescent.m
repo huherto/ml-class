@@ -16,7 +16,7 @@ for iter = 1:num_iters
     % Hint: While debugging, it can be useful to print out the values
     %       of the cost function (computeCost) and gradient here.
     %
-
+%{
     tmp = theta;
     for j = 1:rows(tmp)
         s = 0;
@@ -27,8 +27,12 @@ for iter = 1:num_iters
         tmp(j) = theta(j) - (alpha / m)*s;
     endfor
     theta = tmp;
+ %}
 
-    cost = computeCost(X, y, theta)
+    h = transpose(transpose(theta)*transpose(X));
+    theta = theta - (alpha / m)*transpose(transpose(h - y)*X);
+
+    cost = computeCost(X, y, theta);
 
 
     % ============================================================
