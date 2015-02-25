@@ -20,12 +20,18 @@ grad = zeros(size(theta));
 % Note: grad should have the same dimensions as theta
 %
 
+h = sigmoid(transpose(transpose(theta)*transpose(X)));
+J = sum(transpose(-y) * log(h) - transpose(1 - y)*log(1 - h)) / m;
+grad = transpose(transpose(h - y)*X)/m;
+
+%{
 for i = 1:rows(X)
     h = sigmoid(transpose(theta) * transpose(X(i,:)));
     J = J + ( -y(i)*log(h) - (1-y(i))*log(1 - h)  );
 endfor
 J = J / m;
-
+%}
+%{
 for j = 1:rows(theta)
     s = 0;
     for i = 1:rows(X)
@@ -34,7 +40,7 @@ for j = 1:rows(theta)
     endfor
     grad(j) = s/m;
 endfor
-
+%}
 
 
 % =============================================================
