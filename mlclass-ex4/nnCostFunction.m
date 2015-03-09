@@ -39,6 +39,21 @@ Theta2_grad = zeros(size(Theta2));
 %         cost function computation is correct by verifying the cost
 %         computed in ex4.m
 %
+h1 = sigmoid([ones(m, 1) X] * Theta1');
+h2 = sigmoid([ones(m, 1) h1] * Theta2');
+
+y2 = zeros(length(h2), 0);
+for c = 1:num_labels
+  y2 = [y2 (y == c)];
+end
+
+J=sum(sum((-y2 .* log(h2)) - ((1 - y2).*log(1 - h2))))/m;
+
+% Theta1(:,2:end) removes the first column.
+reg = sum(sum(Theta1(:,2:end) .^ 2)) + sum(sum(Theta2(:,2:end) .^ 2)); 
+
+J = J + (lambda/(2*m))*reg;
+
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
 %         the cost function with respect to Theta1 and Theta2 in Theta1_grad and
@@ -54,6 +69,26 @@ Theta2_grad = zeros(size(Theta2));
 %               over the training examples if you are implementing it for the 
 %               first time.
 %
+for t = 1:m
+    a1 = X(t,:)';        
+    a1 = [ 1; a1 ];
+    z2 = Theta1 * a1;
+    a2 = sigmoid(z2);
+    a2 = [1; a2 ];
+    z3 = Theta2 * a2;
+    a3 = sigmoid(z3);
+
+    d3 = a3 - y2(t,:)';
+    d2 = Theta2' * d3;
+    d2 = d2(2:end) .* sigmoidGradient(z2);
+
+    Theta1_grad = Theta1_grad + d2 * a1';
+    Theta2_grad = Theta2_grad + d3 * a2';
+end
+
+Theta1_grad = Theta1_grad/m;
+Theta2_grad = Theta2_grad/m;
+
 % Part 3: Implement regularization with the cost function and gradients.
 %
 %         Hint: You can implement this around the code for
@@ -61,24 +96,16 @@ Theta2_grad = zeros(size(Theta2));
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+for i=1:rows(Theta1_grad)
+    for j=2:size(Theta1_grad,2)
+        Theta1_grad(i,j) = Theta1_grad(i,j) + (lambda/m)*Theta1(i,j);
+    end
+end
+for i=1:rows(Theta2_grad)
+    for j=2:size(Theta2_grad,2)
+        Theta2_grad(i,j) = Theta2_grad(i,j) + (lambda/m)*Theta2(i,j);
+    end
+end
 
 % -------------------------------------------------------------
 
