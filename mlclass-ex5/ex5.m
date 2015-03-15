@@ -104,7 +104,7 @@ pause;
 %                 see a graph with "high bias" -- slide 8 in ML-advice.pdf 
 %
 
-lambda = 0;
+lambda = 100;
 [error_train, error_val] = ...
     learningCurve([ones(m, 1) X], y, ...
                   [ones(size(Xval, 1), 1) Xval], yval, ...
@@ -174,6 +174,8 @@ plotFit(min(X), max(X), mu, sigma, theta, p);
 xlabel('Change in water level (x)');
 ylabel('Water flowing out of the dam (y)');
 title (sprintf('Polynomial Regression Fit (lambda = %f)', lambda));
+
+pause;
 
 figure(2);
 [error_train, error_val] = ...
